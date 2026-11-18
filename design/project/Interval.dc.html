@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>인터벌 진행</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#C8F04A}a:hover{color:#E2FF8A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #111214; color: #F2F2F0; font-family: 'Noto Sans KR', sans-serif; display: flex; flex-direction: column; gap: 18px; padding: 56px 20px 32px; overflow: hidden">
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <a href="Main.dc.html" aria-label="운동 중단" style="width: 40px; height: 40px; border-radius: 12px; background: #1C1D21; display: flex; align-items: center; justify-content: center; color: #F2F2F0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+    <span style="font-size: 14px; font-weight: 700; color: #A3A6AD">수 · 짧은 인터벌</span>
+    <span style="font-size: 14px; font-weight: 700; color: #A3A6AD">18:05</span>
+  </div>
+
+  <div role="group" aria-label="장소 선택" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: #1C1D21">
+    <button type="button" onClick="{{goOut}}" style="{{outStyle}}">실외 달리기</button>
+    <button type="button" onClick="{{goIn}}" style="{{inStyle}}">실내 HIIT</button>
+  </div>
+
+  <sc-if value="{{outdoor}}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 26px 18px; border-radius: 24px; background: #C8F04A; color: #111214">
+      <span style="font-size: 14px; font-weight: 700">3 / 6 회차 · 빠르게 400m</span>
+      <span style="font-size: 72px; font-weight: 900; line-height: 1; letter-spacing: -2px">4:47</span>
+      <span style="font-size: 14px; font-weight: 700">현재 페이스 /km · 목표 4:50</span>
+      <div style="width: 100%; height: 8px; border-radius: 4px; background: rgba(17,18,20,0.18); margin-top: 10px">
+        <div style="width: 65%; height: 8px; border-radius: 4px; background: #111214"></div>
+      </div>
+      <span style="font-size: 13px; font-weight: 500">260m / 400m</span>
+    </div>
+    <div style="display: flex; flex-direction: column; padding: 4px 16px; border-radius: 16px; background: #1C1D21; border: 1px solid #2A2C31">
+      <sc-for list="{{laps}}" as="l" hint-placeholder-count="3">
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2A2C31">
+          <span style="font-size: 14px; color: #A3A6AD">{{l.n}}</span>
+          <span style="font-size: 14px; font-weight: 700">{{l.pace}}</span>
+          <span style="font-size: 14px; color: #A3A6AD">{{l.note}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 16px; border: 1px solid #2A2C31">
+      <span style="font-size: 12px; font-weight: 700; color: #C8F04A">트레이너</span>
+      <span style="font-size: 15px; line-height: 1.5">2회차 빨랐습니다. 지키라는 건 페이스입니다. 남은 140m, 4:50 유지.</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{indoor}}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 26px 18px; border-radius: 24px; background: #C8F04A; color: #111214">
+      <span style="font-size: 14px; font-weight: 700">5 / 16 라운드 · 운동 20초</span>
+      <span style="font-size: 72px; font-weight: 900; line-height: 1">0:14</span>
+      <span style="font-size: 22px; font-weight: 900">{{move}}</span>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: 16px; background: #1C1D21; border: 1px solid #2A2C31">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 15px; font-weight: 700">저소음 모드</span>
+        <span style="font-size: 13px; color: #A3A6AD">점프 동작을 소리 덜 나는 동작으로 바꿔요</span>
+      </div>
+      <button type="button" aria-label="저소음 모드 켜고 끄기" onClick="{{toggleQuiet}}" style="{{quietTrack}}">
+        <span style="{{quietKnob}}"></span>
+      </button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 16px; border: 1px solid #2A2C31">
+      <span style="font-size: 13px; color: #A3A6AD">다음 10초 휴식 후</span>
+      <span style="font-size: 16px; font-weight: 700">{{nextMove}}</span>
+    </div>
+  </sc-if>
+
+  <div style="flex-grow: 1"></div>
+  <a href="Done.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 16px; border: 1px solid #3A3C42; background: #1C1D21; color: #F2F2F0; font-size: 16px; font-weight: 700; text-decoration: none">쿨다운 조깅으로 마무리 (시연)</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { outdoor: true, quiet: false };
+  }
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    var seg = 'height: 44px; border-radius: 10px; border: none; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; ';
+    var on = seg + 'background: #F2F2F0; color: #111214;';
+    var off = seg + 'background: transparent; color: #A3A6AD;';
+    var track = 'width: 52px; height: 32px; border-radius: 999px; border: none; padding: 3px; display: flex; cursor: pointer; flex-shrink: 0; ';
+    var knob = 'width: 26px; height: 26px; border-radius: 999px; background: #F2F2F0; display: block;';
+    return {
+      outdoor: s.outdoor,
+      indoor: !s.outdoor,
+      outStyle: s.outdoor ? on : off,
+      inStyle: s.outdoor ? off : on,
+      goOut: function () { self.setState({ outdoor: true }); },
+      goIn: function () { self.setState({ outdoor: false }); },
+      laps: [
+        { n: '1회차', pace: '4:52 /km', note: '목표 근접' },
+        { n: '2회차', pace: '4:41 /km', note: '너무 빠름' },
+        { n: '3회차', pace: '진행 중', note: '' }
+      ],
+      move: s.quiet ? '스쿼트 스러스트' : '버피',
+      nextMove: s.quiet ? '빠른 제자리 걷기 · 20초' : '하이니 · 20초',
+      toggleQuiet: function () { self.setState({ quiet: !s.quiet }); },
+      quietTrack: track + (s.quiet ? 'background: #C8F04A; justify-content: flex-end;' : 'background: #3A3C42; justify-content: flex-start;'),
+      quietKnob: knob
+    };
+  }
+}
+</script>
+</body>
+</html>

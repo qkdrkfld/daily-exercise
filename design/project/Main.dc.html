@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>홈 - 오늘의 운동</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#C8F04A}a:hover{color:#E2FF8A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #111214; color: #F2F2F0; font-family: 'Noto Sans KR', sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 18px; padding: 56px 20px 16px">
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 13px; color: #A3A6AD">11월 17일 화요일 · 4주 주기 2주차</span>
+        <span style="font-size: 24px; font-weight: 900; letter-spacing: -0.5px">오늘의 운동</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: #1C1D21; border: 1px solid #2A2C31">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8F04A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-3 2-4 2-7 2 1 3 3 3 5"></path></svg>
+        <span style="font-size: 13px; font-weight: 700">12일 연속</span>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: #1C1D21; border: 1px solid #2A2C31">
+      <div style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #C8F04A; display: flex; align-items: center; justify-content: center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111214" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h3v8H6zM15 8h3v8h-3zM9 12h6M3 10v4M21 10v4"></path></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 12px; font-weight: 700; color: #C8F04A">트레이너</span>
+        <span style="font-size: 15px; line-height: 1.5; font-weight: 500">어제 하체 잘 버텼습니다. 오늘은 밀기. 딥스 네거티브, 5초 꽉 채웁니다.</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 20px; background: #1C1D21; border: 1px solid #2A2C31">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 30px; font-weight: 900; letter-spacing: -1px">화 · 밀기</span>
+          <span style="font-size: 13px; color: #A3A6AD">5종목 · 약 45분 · 스트레칭 포함</span>
+        </div>
+        <span style="font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; border: 1px solid #C8F04A; color: #C8F04A">가슴 · 어깨 · 삼두</span>
+      </div>
+      <div style="display: flex; flex-direction: column">
+        <sc-for list="{{items}}" as="item" hint-placeholder-count="5">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-top: 1px solid #2A2C31">
+            <span style="font-size: 15px; font-weight: 500">{{item.name}}</span>
+            <span style="font-size: 14px; color: #A3A6AD">{{item.sets}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <a href="Checkin.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 56px; border-radius: 16px; background: #C8F04A; color: #111214; font-size: 17px; font-weight: 900; text-decoration: none">
+      컨디션 체크하고 시작
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111214" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </a>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 13px; font-weight: 700; color: #A3A6AD">이번 주</span>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px">
+        <sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+            <span style="font-size: 12px; color: #A3A6AD">{{d.day}}</span>
+            <div style="{{d.dot}}">{{d.mark}}</div>
+            <span style="font-size: 11px; color: #A3A6AD">{{d.label}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="주 메뉴" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 8px 8px 28px; border-top: 1px solid #2A2C31; background: #16171A">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; color: #C8F04A; text-decoration: none; font-size: 11px; font-weight: 700">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>홈
+    </a>
+    <a href="Done.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; color: #A3A6AD; text-decoration: none; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>기록
+    </a>
+    <a href="Workout.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; color: #A3A6AD; text-decoration: none; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h11a3 3 0 0 1 3 3v12H7a3 3 0 0 1-3-3z"></path><path d="M4 17a3 3 0 0 1 3-3h11"></path></svg>동작 사전
+    </a>
+    <a href="Report.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; color: #A3A6AD; text-decoration: none; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>측정
+    </a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var base = 'width: 34px; height: 34px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; box-sizing: border-box; ';
+    var done = base + 'background: #2A2C31; color: #C8F04A;';
+    var today = base + 'background: #C8F04A; color: #111214;';
+    var next = base + 'border: 1px solid #3A3C42; color: #A3A6AD;';
+    return {
+      items: [
+        { name: '링 푸시업', sets: '4 × 8~12' },
+        { name: '링 딥스 (준비 단계)', sets: '홀드 + 네거티브' },
+        { name: '파이크 푸시업', sets: '3 × 8~12' },
+        { name: '다이아몬드 푸시업', sets: '3 × 10~15' },
+        { name: '할로우 홀드', sets: '3 × 30초' }
+      ],
+      week: [
+        { day: '월', label: '하체', dot: done, mark: '✓' },
+        { day: '화', label: '밀기', dot: today, mark: '17' },
+        { day: '수', label: '인터벌', dot: next, mark: '18' },
+        { day: '목', label: '당기기', dot: next, mark: '19' },
+        { day: '금', label: '인터벌', dot: next, mark: '20' },
+        { day: '토', label: '스트레칭', dot: next, mark: '21' },
+        { day: '일', label: '휴식', dot: next, mark: '22' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>근력 운동 진행</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#C8F04A}a:hover{color:#E2FF8A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #111214; color: #F2F2F0; font-family: 'Noto Sans KR', sans-serif; display: flex; flex-direction: column; gap: 16px; padding: 56px 20px 32px; overflow: hidden">
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <a href="Main.dc.html" aria-label="운동 중단" style="width: 40px; height: 40px; border-radius: 12px; background: #1C1D21; display: flex; align-items: center; justify-content: center; color: #F2F2F0">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+    <span style="font-size: 14px; font-weight: 700; color: #A3A6AD">종목 1 / 5 · 화 밀기</span>
+    <span style="font-size: 14px; font-weight: 700; color: #A3A6AD">12:40</span>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px">
+    <div style="height: 4px; border-radius: 2px; background: #C8F04A"></div>
+    <div style="height: 4px; border-radius: 2px; background: #2A2C31"></div>
+    <div style="height: 4px; border-radius: 2px; background: #2A2C31"></div>
+    <div style="height: 4px; border-radius: 2px; background: #2A2C31"></div>
+    <div style="height: 4px; border-radius: 2px; background: #2A2C31"></div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=%EB%A7%81+%ED%91%B8%EC%8B%9C%EC%97%85+%EC%9E%90%EC%84%B8" style="height: 180px; border-radius: 20px; background: #1C1D21; border: 1px solid #2A2C31; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #F2F2F0">
+    <div style="width: 56px; height: 56px; border-radius: 999px; background: #C8F04A; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#111214" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+    </div>
+    <span style="font-size: 14px; font-weight: 700">자세 영상 보기 (유튜브)</span>
+  </a>
+
+  <div style="display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 30px; font-weight: 900; letter-spacing: -1px">링 푸시업</span>
+    <span style="font-size: 14px; line-height: 1.6; color: #A3A6AD">몸은 머리부터 발끝까지 일직선. 링이 흔들리지 않게 팔꿈치를 몸 옆에 붙이고 내려갑니다.</span>
+  </div>
+
+  <sc-if value="{{working}}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 20px; background: #1C1D21; border: 1px solid #2A2C31">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-size: 15px; font-weight: 700">세트 {{setLabel}} / 4</span>
+        <span style="font-size: 14px; color: #A3A6AD">목표 8~12회</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <button type="button" aria-label="1회 빼기" onClick="{{minus}}" style="width: 56px; height: 56px; border-radius: 16px; border: 1px solid #3A3C42; background: #111214; color: #F2F2F0; font-size: 28px; font-family: inherit; cursor: pointer">−</button>
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <span style="font-size: 56px; font-weight: 900; line-height: 1">{{reps}}</span>
+          <span style="font-size: 13px; color: #A3A6AD">실제 한 횟수</span>
+        </div>
+        <button type="button" aria-label="1회 더하기" onClick="{{plus}}" style="width: 56px; height: 56px; border-radius: 16px; border: 1px solid #3A3C42; background: #111214; color: #F2F2F0; font-size: 28px; font-family: inherit; cursor: pointer">+</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{rpe}}" as="r" hint-placeholder-count="3">
+          <button type="button" onClick="{{r.pick}}" style="{{r.style}}">{{r.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+    <button type="button" onClick="{{finishSet}}" style="height: 56px; border-radius: 16px; border: none; background: #C8F04A; color: #111214; font-size: 17px; font-weight: 900; font-family: inherit; cursor: pointer">세트 완료 · 휴식 90초</button>
+  </sc-if>
+
+  <sc-if value="{{resting}}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 18px; border-radius: 20px; background: #C8F04A; color: #111214">
+      <span style="font-size: 14px; font-weight: 700">휴식 중 · 다음은 세트 {{setLabel}}</span>
+      <span style="font-size: 64px; font-weight: 900; line-height: 1">01:30</span>
+      <span style="font-size: 14px; font-weight: 500">물 마시고 숨 고르세요. 시간 되면 바로 갑니다.</span>
+    </div>
+    <button type="button" onClick="{{skipRest}}" style="height: 56px; border-radius: 16px; border: 1px solid #3A3C42; background: #1C1D21; color: #F2F2F0; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer">휴식 건너뛰기</button>
+  </sc-if>
+
+  <sc-if value="{{allDone}}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: 20px; background: #1C1D21; border: 1px solid #2A2C31">
+      <span style="font-size: 12px; font-weight: 700; color: #C8F04A">링 푸시업 완료</span>
+      <span style="font-size: 18px; font-weight: 900">다음 종목: 링 딥스 (준비 단계)</span>
+      <span style="font-size: 14px; color: #A3A6AD">서포트 홀드 20초 × 3, 네거티브 5초 × 3</span>
+    </div>
+    <a href="Done.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 16px; background: #C8F04A; color: #111214; font-size: 17px; font-weight: 900; text-decoration: none">쿨다운 후 운동 마무리 (시연)</a>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { set: 2, reps: 10, rpe: 1, resting: false };
+  }
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    var on = 'border: 1px solid #C8F04A; background: #C8F04A; color: #111214; ';
+    var off = 'border: 1px solid #2A2C31; background: #111214; color: #F2F2F0; ';
+    var rpe = ['쉬웠음', '적당함', '힘들었음'].map(function (l, i) {
+      return {
+        label: l,
+        style: (s.rpe === i ? on : off) + 'height: 44px; border-radius: 12px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer;',
+        pick: function () { self.setState({ rpe: i }); }
+      };
+    });
+    var allDone = s.set > 4;
+    return {
+      reps: String(s.reps),
+      setLabel: String(Math.min(s.set, 4)),
+      rpe: rpe,
+      working: !s.resting && !allDone,
+      resting: s.resting && !allDone,
+      allDone: allDone,
+      plus: function () { self.setState({ reps: s.reps + 1 }); },
+      minus: function () { self.setState({ reps: Math.max(0, s.reps - 1) }); },
+      finishSet: function () {
+        if (s.set >= 4) { self.setState({ set: 5, resting: false }); }
+        else { self.setState({ set: s.set + 1, resting: true }); }
+      },
+      skipRest: function () { self.setState({ resting: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
