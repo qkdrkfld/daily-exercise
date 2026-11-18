@@ -45,6 +45,9 @@ export const db = new PtDB();
 
 export const getSettings = async (d: PtDB = db) => (await d.settings.get('main'))!;
 
+// javascript: 같은 주소가 링크로 들어가지 않게 한다
+const isHttp = (u: URL) => u.protocol === 'https:' || u.protocol === 'http:';
+
 /** 영상 링크를 바꾼다. http(s) 주소만 받고, 빈 값이면 기본 유튜브 검색 링크로 되돌린다. 저장한 주소를 돌려준다 */
 export async function setVideoUrl(id: string, input: string, d: PtDB = db): Promise<string> {
   const ex = (await d.exercises.get(id))!;
@@ -56,7 +59,7 @@ export async function setVideoUrl(id: string, input: string, d: PtDB = db): Prom
     } catch {
       throw new Error('주소 형식이 아닙니다. https://로 시작하는 주소를 붙여 넣어 주세요.');
     }
-    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') throw new Error('http 또는 https 주소만 저장할 수 있습니다.');
+    if (!isHttp(parsed)) throw new Error('http 또는 https 주소만 저장할 수 있습니다.');
     url = parsed.href;
   }
   await d.exercises.update(id, { videoUrl: url });
@@ -100,6 +103,11 @@ export async function importJson(json: string, d: PtDB = db): Promise<void> {
   if (typeof parsed.settings?.programStartDate !== 'string') throw new Error('백업 파일에 설정이 없습니다.');
   for (const t of TABLES) {
     if (!Array.isArray(parsed.data?.[t])) throw new Error(`백업 파일에 ${t} 데이터가 없습니다.`);
+  }
+  for (const ex of parsed.data.exercises) {
+    if (typeof ex?.videoUrl !== 'string' || !URL.canParse(ex.videoUrl) || !isHttp(new URL(ex.videoUrl))) {
+      throw new Error('백업 파일에 잘못된 영상 링크가 있습니다.');
+    }
   }
   // 한 트랜잭션으로 묶어서 중간에 실패하면 기존 데이터가 그대로 남는다
   await d.transaction('rw', [...TABLES, 'settings'], async () => {

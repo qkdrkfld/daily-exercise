@@ -34,7 +34,11 @@ it('잘못된 백업 파일은 거부하고 기존 데이터는 그대로 둔다
   await d.sessions.add({ id: 'keep', date: '2026-11-16', dayType: 'legs', volumeFactor: 1, startedAt: 1, sets: [], rpeByExercise: {}, completed: true });
   await expect(importJson('{"app":"other"}', d)).rejects.toThrow('이 앱의 백업 파일이 아닙니다.');
   await expect(importJson('not json', d)).rejects.toThrow();
+  const bad = JSON.parse(await exportJson(d));
+  bad.data.exercises[0].videoUrl = 'javascript:alert(1)';
+  await expect(importJson(JSON.stringify(bad), d)).rejects.toThrow('잘못된 영상 링크');
   expect(await d.sessions.count()).toBe(1);
+  expect((await d.exercises.get(EXERCISES[0].id))!.videoUrl).toBe(EXERCISES[0].videoUrl);
 });
 
 it('4주 측정 저장: 한 번만 적용, 페이스 재계산, 리포트용 안내 저장', async () => {
