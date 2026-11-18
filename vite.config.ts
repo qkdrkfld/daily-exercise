@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  base: '/daily-exercise/', // GitHub Pages 주소가 qkdrkfld.github.io/daily-exercise/
   plugins: [
     react(),
     VitePWA({
